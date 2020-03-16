@@ -26,7 +26,7 @@ class Storage {
   //- получет товар и, если он есть, удаляет его из текущих
 
   removeItem(item) {
-    this._items = [...this._items.filter(product => product != item)];
+    this._items = [this._items.filter(product => product != item)];
   }
 }
 

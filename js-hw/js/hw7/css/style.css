@@ -1,0 +1,32 @@
+.container {
+  max-width: 920px;
+  height: 600px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+ul {
+  position: relative;
+  list-style: none;
+  display: flex;
+  padding: 0;
+  left: -42%;
+  top: -45%;
+}
+.foto_cat {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+img {
+  display: block;
+  max-width: 770px;
+  visibility: hidden;
+}
+.active {
+  visibility: visible;
+}
+button {
+  padding: 5px 10px;
+}

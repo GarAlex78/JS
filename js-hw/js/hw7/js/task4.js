@@ -11,8 +11,15 @@
   <button type="button" data-action="increment">+1</button>
 </div>
 */
+// хорошей практикой считается Важные переменные и методы обработки их скрывать в обьект.
 const rest = {
-  counterValue: 0,
+  counter: { value: 0 },
+  incr() {
+    this.counter.value += 1;
+  },
+  decr() {
+    this.counter.value -= 1;
+  },
   buttonIncrement: document.querySelector('button[data-action="increment"]'),
   buttonDecrement: document.querySelector('button[data-action="decrement"]'),
   spanValue: document.querySelector("#value")
@@ -23,14 +30,41 @@ buttonIncrement.addEventListener("click", increment);
 buttonDecrement.addEventListener("click", decrement);
 
 function increment() {
-  rest.counterValue += 1;
-  spanValue.innerText = rest.counterValue;
+  rest.incr();
+  spanValue.textContent = rest.counter.value;
 }
 
 function decrement() {
-  if (rest.counterValue === 0) {
+  if (rest.counter.value === 0) {
     return;
   }
-  rest.counterValue -= 1;
-  spanValue.innerText = rest.counterValue;
+  rest.decr();
+  spanValue.textContent = rest.counter.value;
 }
+
+//=============================II вариант ============================
+// const refs = {
+//   counter: document.querySelector("#counter"),// сылка на блок в котором находятся наши кнопки. Присрабатывание события на любой кнопке мы его можем отследить на слушателе через свойство target дальше dataset( мы прописали в теге кождой кнопке data-action="decrement" и дальше action
+//   value: document.querySelector("#value")
+// };
+
+// const actions = {
+//   state: {
+//     counter: 0
+//   },
+//   decrement() {
+//     this.state.counter -= 1;
+//   },
+//   increment() {
+//     this.state.counter += 1;
+//   }
+// };
+// const counter = document.querySelector("#counter");
+// в фун-цию changeValue передаем event потом деструктуризируем его { target }.
+//
+// const changeValue = ({ target }) => {
+// в зависимости от полученого значения из [target.dataset.action] (decrement или increment) вызывается ода из функий и ее ретерн записываем в span через его свойство textContent
+// actions[target.dataset.action]();
+//   refs.value.textContent = actions.state.counter;
+// };
+// refs.counter.addEventListener("click", changeValue);

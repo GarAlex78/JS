@@ -9,7 +9,7 @@
 const inputText = document.querySelector("#name-input");
 const outputText = document.querySelector("#name-output");
 inputText.addEventListener("input", addTextInSpan);
-function addTextInSpan(e) {
+function addTextInSpan({ currentTarget }) {
   outputText.textContent =
-    e.currentTarget.value.length !== 0 ? e.currentTarget.value : "незнакомец";
+    currentTarget.value.length !== 0 ? currentTarget.value : "незнакомец";
 }

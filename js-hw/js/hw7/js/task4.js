@@ -44,7 +44,8 @@ function decrement() {
 
 //=============================II вариант ============================
 // const refs = {
-//   counter: document.querySelector("#counter"),// сылка на блок в котором находятся наши кнопки. Присрабатывание события на любой кнопке мы его можем отследить на слушателе через свойство target дальше dataset( мы прописали в теге кождой кнопке data-action="decrement" и дальше action
+//   counter: document.querySelector("#counter"),
+// сылка на блок в котором находятся наши кнопки. Присрабатывание события на любой кнопке мы его можем отследить на слушателе через свойство target дальше dataset( мы прописали в теге кождой кнопке data-action="decrement" и дальше action
 //   value: document.querySelector("#value")
 // };
 
@@ -59,7 +60,7 @@ function decrement() {
 //     this.state.counter += 1;
 //   }
 // };
-// const counter = document.querySelector("#counter");
+// //const counter = document.querySelector("#counter");
 // в фун-цию changeValue передаем event потом деструктуризируем его { target }.
 //
 // const changeValue = ({ target }) => {

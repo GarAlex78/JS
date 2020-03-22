@@ -18,9 +18,7 @@ const boxRgb = {
     return boxes.map((item, idx) => creatDiv(idx));
   },
   render: function createBoxes(amount) {
-    this.boxes.length = Array(amount);
-    console.log(this.boxes.length);
-    console.log(this.boxes);
+    this.boxes.length = amount;
     this.boxes.fill(0);
     this.divParent.prepend(...this.creatArrayWithDiv(this.boxes));
   },
@@ -46,7 +44,7 @@ const creatDiv = idx => {
   return divRgb;
 };
 const randomColor = () => {
-  return `rgb(${Number.floor(Math.random() * 256)}, ${Number.floor(
+  return `rgb(${Math.floor(Math.random() * 256)}, ${Math.floor(
     Math.random() * 256
-  )}, ${Number.floor(Math.random() * 256)})`;
+  )}, ${Math.floor(Math.random() * 256)})`;
 };

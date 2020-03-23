@@ -18,14 +18,14 @@ const boxRgb = {
     return boxes.map((item, idx) => creatDiv(idx));
   },
   render: function createBoxes(amount) {
-    this.boxes.length = amount;
-    this.boxes.fill(0);
+    this.boxes.length = amount; // создаем нужный размер массива(сам массив пустой, мы только задали length)
+    this.boxes.fill(0); // наполняем массив ОДИНАКОВЫМИ значениями
     this.divParent.prepend(...this.creatArrayWithDiv(this.boxes));
   },
   destroy: function destroyBoxes() {
     inputNumber.value = 0;
     this.boxes.length = 0;
-    this.divParent.innerHTML = "";
+    this.divParent.innerHTML = ""; // очищаем все что создали (все что внутри родительского элемента divParent)
   }
 };
 const { divControl, inputNumber } = boxRgb;

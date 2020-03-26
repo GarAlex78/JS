@@ -10,6 +10,10 @@ const refs = {
   urlBigImg: "url",
   setUrl(ur) {
     return (this.urlBigImg = `${ur}`);
+  },
+  activId: 0,
+  setId(id) {
+    this.activId = Number(id);
   }
 };
 
@@ -41,30 +45,31 @@ function templateLi(pr, or, des, idx) {
 }
 ulGallery.insertAdjacentHTML("afterbegin", allMarkup);
 //Реализация делегирования
-
 ulGallery.addEventListener("click", handleClickFoto);
 function handleClickFoto({ target }) {
-  let activId = Number(target.id);
+  refs.setId(target.id);
   divLightbox.classList.add("is-open");
   imgLightbox.setAttribute("src", refs.setUrl(target.dataset.source));
-  document.addEventListener("keyup", handleKeyup);
-  function handleKeyup({ code }) {
-    if (code === "Escape") {
-      closeModal();
+}
+//обработка пролистывания фото
+document.addEventListener("keyup", handleKeyup);
+function handleKeyup({ code }) {
+  if (code === "Escape") {
+    closeModal();
+  }
+  if (code === "ArrowRight") {
+    console.log("refs.activId: ", refs.activId);
+    refs.activId += 1;
+    if (refs.activId === galleries.length) {
+      refs.activId -= 1;
     }
-    if (code === "ArrowRight") {
-      activId += 1;
-      if (activId === galleries.length) {
-        activId -= 1;
-      }
-      flipping(activId);
-    } else if (code === "ArrowLeft") {
-      activId -= 1;
-      if (activId === -1) {
-        activId += 1;
-      }
-      flipping(activId);
+    flipping(refs.activId);
+  } else if (code === "ArrowLeft") {
+    refs.activId -= 1;
+    if (refs.activId === -1) {
+      refs.activId += 1;
     }
+    flipping(refs.activId);
   }
 }
 // закрытие модального окна  по button[data-action="close-lightbox"] и div.lightbox__content
@@ -83,5 +88,5 @@ function flipping(activId) {
 //реализация закрытие модального окна
 function closeModal() {
   divLightbox.classList.remove("is-open");
-  imgLightbox.removeAttribute("src", refs.url.urlBigImg);
+  imgLightbox.removeAttribute("src", refs.urlBigImg);
 }

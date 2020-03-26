@@ -16,7 +16,6 @@ const refs = {
     this.activId = Number(id);
   }
 };
-
 const {
   ulGallery,
   divLightbox,

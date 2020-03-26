@@ -4,6 +4,6 @@
 const getNamesSortedByFriendsCount = users => {
   const newUsers = [...users];
   newUsers.sort((a, b) => b.friends.length - a.friends.length);
-  return newUsers.reduce((acc, next) => [...acc, next.name], []);
+  return newUsers.reduce((acc, { name }) => [...acc, name], []);
 };
 console.log(getNamesSortedByFriendsCount(users));

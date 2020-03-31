@@ -33,11 +33,10 @@ function valueAtBoot() {
   tegBody.classList.add(`${refs.currentTheme}`);
   refs.switchInput.checked = refs.currentTheme === DARK ? true : false;
 }
-
-switchInput.addEventListener("CheckboxStateChange", handleCheckBox);
-function handleCheckBox({ originalTarget }) {
+switchInput.addEventListener("click", handleCheckBox);
+function handleCheckBox({ target }) {
   tegBody.classList.remove(`${refs.currentTheme}`);
-  if (originalTarget.checked) {
+  if (target.checked) {
     refs.setCurrentTheme(DARK);
   } else {
     refs.setCurrentTheme(LIGHT);

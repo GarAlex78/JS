@@ -9,31 +9,44 @@ import liCountries from "./templates/li-countries.hbs";
 import "./styles.css";
 // создаем экземпляр обьекта Notyf
 const notyf = new Notyf({
-  duration: 3000
+  duration: 1500
 });
 
 const refs = {
   inputCountry: document.querySelector(".input"),
   divContainer: document.querySelector(".container"),
-  url: `https://restcountries.eu/rest/v2/all`
+  liCountrie: "list_countries__item", // это название классов которые лежат в target.className, уменьшаю площадь срабатывания клика
+  ulCounrtie: "list_counrties",
+  url: `https://restcountries.eu/rest/v2/all`,
+  dataCountries: {},
+  flag: true
 };
-const { inputCountry, divContainer } = refs;
-divContainer.addEventListener("click", handlerCountryChoice);
+const { inputCountry, divContainer, liCountrie, ulCounrtie } = refs;
 inputCountry.addEventListener("input", debounce(handleInputSearch, 500));
-function handleInputSearch(e) {
-  if (e.data === undefined || e.target.value.length < 2) {
+
+function handleInputSearch({ target, data }) {
+  if (data === undefined || target.value.length < 2) {
     clearListCountries();
     return;
   }
-  const searchInput = e.target.value;
+  const searchInput = target.value;
   refs.url = `https://restcountries.eu/rest/v2/name/${searchInput}`;
   if (searchInput.length > 1) {
     dataProcessing();
   }
 }
 function handlerCountryChoice({ target }) {
-  refs.url = `https://restcountries.eu/rest/v2/name/${target.textContent}`;
-  dataProcessing();
+  if (
+    target.className === liCountrie ||
+    target.className === ulCounrtie ||
+    target === divContainer
+  ) {
+    return;
+  }
+  const countri = refs.dataCountries.find(
+    item => item.name === target.textContent
+  );
+  showCoutrie({ countri });
 }
 
 const getRestCountries = async () => {
@@ -48,26 +61,37 @@ const getRestCountries = async () => {
 
 const dataProcessing = async () => {
   try {
-    const data = await getRestCountries();
-    const countries = data.map(item => item.name);
-    if (data.length > 1 && data.length <= 10) {
+    refs.dataCountries = await getRestCountries();
+    const countries = refs.dataCountries.map(item => item.name);
+    if (refs.dataCountries.length > 1 && refs.dataCountries.length <= 10) {
       showLiCoutries(countries);
-      notyf.success("Выберите из списка нужную страну ");
-    } else if (data.length === 1) {
-      showCoutrie(data);
+      if (refs.flag) {
+        notyf.success("Select your country from the list.");
+        refs.flag = false;
+      }
+    } else if (refs.dataCountries.length === 1) {
+      showCoutrie(refs.dataCountries);
     } else {
       clearListCountries();
-      notyf.warning("Под ваш запрос подходит больше 10 стран");
+      notyf.warning("Too many matches found. Please enter more characters!");
     }
   } catch (error) {
-    notyf.error("Такой страны нет");
+    clearListCountries();
+    notyf.error("No country with such name");
   }
 };
 //отрисовка динамического списка стран
 const showLiCoutries = countries => {
   divContainer.innerHTML = `${liCountries({ countries })}`;
+  divContainer.addEventListener("click", handlerCountryChoice);
 };
 //отрисовка карточки страны
-const showCoutrie = todo => (divContainer.innerHTML = `${cartCountries(todo)}`);
-//очистка списка
-const clearListCountries = () => (divContainer.innerHTML = "");
+const showCoutrie = todo => {
+  divContainer.innerHTML = `${cartCountries(todo)}`;
+  divContainer.removeEventListener("click", handlerCountryChoice);
+};
+//очистка списка и изминение флага на срабатывание notyf.success
+const clearListCountries = () => {
+  divContainer.innerHTML = "";
+  refs.flag = true;
+};

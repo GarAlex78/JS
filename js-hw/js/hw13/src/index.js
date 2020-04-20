@@ -43,6 +43,7 @@ function handlerInputSeach(e) {
   const text = e.target.elements[0].value;
   if (text.length < 2) {
     notyf.error("Not enough data to request");
+    return;
   }
   if (refs.searchText === text) {
     refs.setPage(1);
